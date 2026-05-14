@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead Report — Seguros de Vehículos · Colombia · 2026-05-02</title>
+<style>
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; box-sizing: border-box; margin: 0; padding: 0; }
+
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #F3F4F6; color: #111827; font-size: 14px; }
+
+  /* ── HEADER ── */
+  .header { background: #1E3A5F; color: #fff; padding: 28px 36px 22px; }
+  .header-top { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+  .header-icon { font-size: 32px; }
+  .header-title { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
+  .header-sub { font-size: 13px; color: #93C5FD; margin-bottom: 16px; }
+  .header-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+  .hbadge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; color: #fff; }
+  .hbadge-premium { background: #D97706; }
+  .hbadge-hot     { background: #DC2626; }
+  .hbadge-warm    { background: #2563EB; }
+  .hbadge-cold    { background: #6B7280; }
+  .hbadge-total   { background: #374151; }
+  .mode-badge { margin-left: auto; background: #0F2942; border: 1px solid #3B82F6; color: #93C5FD; padding: 4px 10px; border-radius: 6px; font-size: 11px; }
+
+  /* ── DASHBOARD (no-print) ── */
+  .dashboard { background: #fff; padding: 16px 36px; border-bottom: 1px solid #E5E7EB; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .search-input { padding: 8px 14px; border: 1px solid #D1D5DB; border-radius: 8px; font-size: 13px; width: 220px; outline: none; }
+  .search-input:focus { border-color: #3B82F6; }
+  .filter-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-btn { padding: 6px 14px; border: 1px solid #D1D5DB; background: #fff; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; color: #374151; transition: all 0.15s; }
+  .filter-btn:hover { background: #F9FAFB; }
+  .filter-btn.active { background: #1E3A5F; color: #fff; border-color: #1E3A5F; }
+  .pdf-btn { margin-left: auto; background: #DC2626; color: #fff; border: none; padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+  .pdf-btn:hover { background: #B91C1C; }
+
+  /* ── SUMMARY TABLE ── */
+  .section { padding: 24px 36px; }
+  .section-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #6B7280; margin-bottom: 12px; }
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; }
+  th { background: #1E3A5F; color: #fff; padding: 10px 14px; font-size: 12px; font-weight: 600; text-align: left; }
+  td { padding: 9px 14px; font-size: 12px; border-bottom: 1px solid #F3F4F6; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #F9FAFB; }
+
+  /* ── CARDS GRID ── */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 16px; padding: 0 36px 36px; }
+  .lead-card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border-top: 4px solid transparent; }
+  .lead-card[data-category="PREMIUM"] { border-top-color: #D97706; }
+  .lead-card[data-category="HOT"]     { border-top-color: #DC2626; }
+  .lead-card[data-category="WARM"]    { border-top-color: #2563EB; }
+  .lead-card[data-category="COLD"]    { border-top-color: #9CA3AF; }
+
+  .card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; gap: 10px; }
+  .company-name { font-size: 16px; font-weight: 700; color: #111827; }
+  .company-industry { font-size: 12px; color: #6B7280; margin-top: 2px; }
+  .score-block { text-align: center; flex-shrink: 0; }
+  .score-num { font-size: 26px; font-weight: 800; line-height: 1; }
+  .score-num-premium { color: #D97706; }
+  .score-num-hot     { color: #DC2626; }
+  .score-num-warm    { color: #2563EB; }
+  .score-num-cold    { color: #9CA3AF; }
+  .score-label { font-size: 10px; font-weight: 600; text-transform: uppercase; color: #9CA3AF; }
+
+  .cat-badge { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 10px; }
+  .cat-PREMIUM { background: #FEF3C7; color: #92400E; }
+  .cat-HOT     { background: #FEE2E2; color: #991B1B; }
+  .cat-WARM    { background: #DBEAFE; color: #1E40AF; }
+  .cat-COLD    { background: #E5E7EB; color: #374151; }
+
+  .score-bar { height: 5px; background: #E5E7EB; border-radius: 3px; margin-bottom: 14px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 3px; }
+  .fill-PREMIUM { background: #D97706; }
+  .fill-HOT     { background: #DC2626; }
+  .fill-WARM    { background: #2563EB; }
+  .fill-COLD    { background: #9CA3AF; }
+
+  .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; margin-bottom: 12px; }
+  .data-item { font-size: 12px; color: #374151; }
+  .data-item span { color: #6B7280; display: block; font-size: 11px; }
+  .data-item a { color: #1D4ED8; text-decoration: none; word-break: break-all; }
+  .data-item a:hover { text-decoration: underline; }
+
+  .signals-box { background: #FEF3C7; border: 1px solid #FCD34D; border-radius: 6px; padding: 8px 12px; margin-bottom: 10px; }
+  .signals-title { font-size: 11px; font-weight: 700; color: #92400E; margin-bottom: 4px; }
+  .signal-item { font-size: 11px; color: #78350F; margin-bottom: 2px; }
+
+  .source-tag { font-size: 11px; color: #6B7280; }
+  .source-tag strong { color: #374151; }
+
+  /* ── METHODOLOGY ── */
+  .methodology { background: #fff; margin: 0 36px 36px; border-radius: 10px; padding: 20px 24px; font-size: 12px; color: #6B7280; }
+  .methodology h3 { font-size: 13px; font-weight: 700; color: #374151; margin-bottom: 10px; }
+  .methodology p { margin-bottom: 6px; line-height: 1.6; }
+  .methodology ul { padding-left: 18px; margin-bottom: 8px; }
+  .methodology li { margin-bottom: 3px; }
+  .disclaimer { margin-top: 10px; padding: 8px 12px; background: #F9FAFB; border-left: 3px solid #D1D5DB; border-radius: 0 6px 6px 0; font-size: 11px; color: #9CA3AF; }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: #fff; }
+    .dashboard { display: none !important; }
+    .no-print { display: none !important; }
+    .lead-card { box-shadow: none !important; border: 1px solid #D1D5DB !important; page-break-inside: avoid; break-inside: avoid; }
+    .cards-grid { grid-template-columns: 1fr 1fr; }
+    .header { background: #1E3A5F !important; }
+    .section, .cards-grid { padding-left: 0; padding-right: 0; }
+    @page { margin: 18mm 14mm; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <span class="header-icon">🎯</span>
+    <div>
+      <div class="header-title">Lead Report — Seguros de Vehículos</div>
+      <div class="header-sub">Colombia · PyMEs con flota vehicular · Generado: 2 mayo 2026 · Modo: NATIVE</div>
+    </div>
+    <div class="mode-badge no-print">⚡ NATIVE</div>
+  </div>
+  <div class="header-badges">
+    <span class="hbadge hbadge-total">20 leads totales</span>
+    <span class="hbadge hbadge-premium">🥇 0 PREMIUM</span>
+    <span class="hbadge hbadge-hot">🔥 5 HOT</span>
+    <span class="hbadge hbadge-warm">🌡️ 11 WARM</span>
+    <span class="hbadge hbadge-cold">❄️ 4 COLD</span>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard no-print">
+  <input type="text" class="search-input" placeholder="🔍 Buscar empresa..." oninput="searchLeads(this.value)">
+  <div class="filter-group">
+    <button class="filter-btn active" data-filter="ALL" onclick="filterLeads('ALL')">Todos</button>
+    <button class="filter-btn" data-filter="HOT" onclick="filterLeads('HOT')">🔥 HOT</button>
+    <button class="filter-btn" data-filter="WARM" onclick="filterLeads('WARM')">🌡️ WARM</button>
+    <button class="filter-btn" data-filter="COLD" onclick="filterLeads('COLD')">❄️ COLD</button>
+  </div>
+  <button class="pdf-btn" onclick="downloadPDF()">⬇ Descargar PDF</button>
+</div>
+
+<!-- SUMMARY TABLE -->
+<div class="section">
+  <div class="section-title">Resumen Ejecutivo</div>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Empresa</th><th>Score</th><th>Categoría</th><th>Sector</th><th>Ubicación</th><th>Contacto</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td><strong>Transportes Nuevos Andes</strong></td><td><strong>67</strong></td><td><span class="cat-badge cat-HOT">HOT</span></td><td>Transporte escolar</td><td>Bogotá</td><td>gerencia@transportesnuevosandes.com</td></tr>
+      <tr><td>2</td><td><strong>Glo Trans MM</strong></td><td><strong>65</strong></td><td><span class="cat-badge cat-HOT">HOT</span></td><td>Transporte escolar</td><td>Bogotá</td><td>info@glotransmm.com</td></tr>
+      <tr><td>3</td><td><strong>AllTour SAS</strong></td><td><strong>62</strong></td><td><span class="cat-badge cat-HOT">HOT</span></td><td>Transporte especial</td><td>Bogotá</td><td>contactenos@alltoursas.com</td></tr>
+      <tr><td>4</td><td><strong>Transportadora Estrella</strong></td><td><strong>57</strong></td><td><span class="cat-badge cat-HOT">HOT</span></td><td>Carga terrestre</td><td>Medellín / Bogotá</td><td>servicioalcliente@transestrella.com</td></tr>
+      <tr><td>5</td><td><strong>Renting Automayor</strong></td><td><strong>52</strong></td><td><span class="cat-badge cat-HOT">HOT</span></td><td>Alquiler de vehículos</td><td>Bogotá</td><td>+601 6914303</td></tr>
+      <tr><td>6</td><td><strong>Aeroexpresos Rusantur</strong></td><td><strong>49</strong></td><td><span class="cat-badge cat-WARM">WARM</span></td><td>Transporte escolar/tur.</td><td>Bogotá</td><td>(1) 703 2020</td></tr>
+      <tr><td>7</td><td><strong>AS Transportes</strong></td><td><strong>47</strong></td><td><span class="cat-badge cat-WARM">WARM</span></td><td>Transporte especial</td><td>Colombia</td><td>Formulario web</td></tr>
+      <tr><td>8</td><td><strong>El Criollo</strong></td><td><strong>47</strong></td><td><span class="cat-badge cat-WARM">WARM</span></td><td>Distribución alimentos</td><td>Colombia</td><td>Formulario web</td></tr>
+      <tr><td>9</td><td><strong>Estrene Carro PyME</strong></td><td><strong>47</strong></td><td><span class="cat-badge cat-WARM">WARM</span></td><td>Renting vehículos</td><td>Colombia</td><td>Formulario web</td></tr>
+      <tr><td>10</td><td><strong>TLC Logistics</strong></td><td><strong>45</strong></td><td><span class="cat-badge cat-WARM">WARM</span></td><td>Logística / transporte</td><td>Colombia</td><td>LinkedIn</td></tr>
+      <tr><td>11</td><td><strong>Ditransa</strong></td><td><strong>42</strong></td><td><span class="cat-badge cat-WARM">WARM</span></td><td>Carga a granel</td><td>Colombia</td><td>LinkedIn</td></tr>
+      <tr><td>12</td><td><strong>Transportes Especiales CJD</strong></td><td><strong>40</strong></td><td><span class="cat-badge cat-WARM">WARM</span></td><td>Transporte especial</td><td>Bogotá</td><td>Formulario web</td></tr>
+      <tr><td>13</td><td><strong>Chef Market</strong></td><td><strong>37</strong></td><td><span class="cat-badge cat-WARM">WARM</span></td><td>Distribución alimentos</td><td>Cundinamarca</td><td>Formulario web</td></tr>
+      <tr><td>14</td><td><strong>Proandina</strong></td><td><strong>37</strong></td><td><span class="cat-badge cat-WARM">WARM</span></td><td>Distribución consumo masivo</td><td>Colombia</td><td>Formulario web</td></tr>
+      <tr><td>15</td><td><strong>CARGA SAS</strong></td><td><strong>37</strong></td><td><span class="cat-badge cat-WARM">WARM</span></td><td>Plataforma de carga</td><td>Colombia</td><td>Formulario web / app</td></tr>
+      <tr><td>16</td><td><strong>Seturcol</strong></td><td><strong>35</strong></td><td><span class="cat-badge cat-WARM">WARM</span></td><td>Transporte especial</td><td>Colombia</td><td>Formulario web</td></tr>
+      <tr><td>17</td><td><strong>Logística Total SAS</strong></td><td><strong>30</strong></td><td><span class="cat-badge cat-WARM">WARM</span></td><td>Logística</td><td>Colombia</td><td>LinkedIn</td></tr>
+      <tr><td>18</td><td><strong>MCT SAS</strong></td><td><strong>25</strong></td><td><span class="cat-badge cat-COLD">COLD</span></td><td>Transporte / logística</td><td>Colombia</td><td>LinkedIn</td></tr>
+      <tr><td>19</td><td><strong>Soluciones Logísticas TCL</strong></td><td><strong>25</strong></td><td><span class="cat-badge cat-COLD">COLD</span></td><td>Logística operadora</td><td>Colombia</td><td>LinkedIn</td></tr>
+      <tr><td>20</td><td><strong>Cootraescal</strong></td><td><strong>22</strong></td><td><span class="cat-badge cat-COLD">COLD</span></td><td>Coop. transporte escolar</td><td>Medellín</td><td>cootraescal.com</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- CARDS -->
+<div class="cards-grid" id="leadsContainer">
+
+  <!-- 1. Transportes Nuevos Andes — HOT 67 -->
+  <div class="lead-card" data-category="HOT">
+    <div class="card-header">
+      <div>
+        <div class="company-name">Transportes Nuevos Andes</div>
+        <div class="company-industry">Transporte escolar · Bogotá</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-hot">67</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-HOT">🔥 HOT</span>
+    <div class="score-bar"><div class="score-fill fill-HOT" style="width:67%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>🌐 Website</span><a href="https://transportesnuevosandes.com" target="_blank">transportesnuevosandes.com</a></div>
+      <div class="data-item"><span>📧 Email</span>gerencia@transportesnuevosandes.com</div>
+      <div class="data-item"><span>📞 Teléfono</span>(+571) 621 2120</div>
+      <div class="data-item"><span>💬 WhatsApp</span>320 835 0601</div>
+      <div class="data-item"><span>📍 Ubicación</span>Bogotá, Colombia</div>
+      <div class="data-item"><span>🏢 Sector</span>Transporte escolar</div>
+      <div class="data-item"><span>👥 Tamaño</span>PyME (~15-30 empleados)</div>
+      <div class="data-item"><span>👤 Decision-maker</span>Gerencia (email directo)</div>
+    </div>
+    <div class="signals-box">
+      <div class="signals-title">⚡ Señales detectadas</div>
+      <div class="signal-item">• Flota activa de buses escolares en Bogotá</div>
+      <div class="signal-item">• Email directo a gerencia disponible</div>
+      <div class="signal-item">• Horario de atención publicado (captación activa)</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> Google Search · directorio transporte Colombia</div>
+  </div>
+
+  <!-- 2. Glo Trans MM — HOT 65 -->
+  <div class="lead-card" data-category="HOT">
+    <div class="card-header">
+      <div>
+        <div class="company-name">Glo Trans MM</div>
+        <div class="company-industry">Transporte escolar · Bogotá</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-hot">65</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-HOT">🔥 HOT</span>
+    <div class="score-bar"><div class="score-fill fill-HOT" style="width:65%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>🌐 Website</span><a href="https://glotransmm.com" target="_blank">glotransmm.com</a></div>
+      <div class="data-item"><span>📧 Email</span>info@glotransmm.com</div>
+      <div class="data-item"><span>📞 Teléfono</span>(1) 3002316</div>
+      <div class="data-item"><span>💬 WhatsApp</span>318 795 6237</div>
+      <div class="data-item"><span>📍 Ubicación</span>Cll 163B #48-80 Of.306, Bogotá</div>
+      <div class="data-item"><span>🏢 Sector</span>Transporte escolar</div>
+      <div class="data-item"><span>👥 Tamaño</span>PyME</div>
+      <div class="data-item"><span>💼 LinkedIn</span>No encontrado</div>
+    </div>
+    <div class="signals-box">
+      <div class="signals-title">⚡ Señales detectadas</div>
+      <div class="signal-item">• Flota de vehículos escolares activa en Bogotá</div>
+      <div class="signal-item">• Dirección física + email + WhatsApp publicados</div>
+      <div class="signal-item">• Empresa especializada solo en transporte escolar</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> Google Search · transporte escolar Bogotá</div>
+  </div>
+
+  <!-- 3. AllTour SAS — HOT 62 -->
+  <div class="lead-card" data-category="HOT">
+    <div class="card-header">
+      <div>
+        <div class="company-name">AllTour SAS</div>
+        <div class="company-industry">Transporte especial · Bogotá</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-hot">62</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-HOT">🔥 HOT</span>
+    <div class="score-bar"><div class="score-fill fill-HOT" style="width:62%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>🌐 Website</span><a href="https://alltoursas.com" target="_blank">alltoursas.com</a></div>
+      <div class="data-item"><span>📧 Email</span>contactenos@alltoursas.com</div>
+      <div class="data-item"><span>📞 Teléfono</span>+57 1 678 73 86</div>
+      <div class="data-item"><span>📱 Celular</span>311 532 13 77</div>
+      <div class="data-item"><span>📍 Ubicación</span>Clle 166 #8F-93 Piso 3°, Bogotá</div>
+      <div class="data-item"><span>🏢 Sector</span>Transporte escolar y especial</div>
+      <div class="data-item"><span>👥 Tamaño</span>PyME mediana</div>
+      <div class="data-item"><span>💼 LinkedIn</span>No encontrado</div>
+    </div>
+    <div class="signals-box">
+      <div class="signals-title">⚡ Señales detectadas</div>
+      <div class="signal-item">• Flota de buses para colegios, turismo y empresas</div>
+      <div class="signal-item">• Múltiples números de contacto activos</div>
+      <div class="signal-item">• Dirección física verificada en zona norte Bogotá</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> Google Search · transporte escolar Colombia</div>
+  </div>
+
+  <!-- 4. Transportadora Estrella — HOT 57 -->
+  <div class="lead-card" data-category="HOT">
+    <div class="card-header">
+      <div>
+        <div class="company-name">Transportadora Estrella SAS</div>
+        <div class="company-industry">Carga terrestre · Medellín / Bogotá</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-hot">57</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-HOT">🔥 HOT</span>
+    <div class="score-bar"><div class="score-fill fill-HOT" style="width:57%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>🌐 Website</span><a href="https://transestrella.com" target="_blank">transestrella.com</a></div>
+      <div class="data-item"><span>📧 Email</span>servicioalcliente@transestrella.com</div>
+      <div class="data-item"><span>📞 Teléfono MDE</span>604-527 3300</div>
+      <div class="data-item"><span>📍 Ubicación</span>Medellín · Bogotá · Cali</div>
+      <div class="data-item"><span>🏢 Sector</span>Transporte de carga terrestre</div>
+      <div class="data-item"><span>👥 Tamaño</span>Mediana empresa, flota propia</div>
+      <div class="data-item"><span>💼 LinkedIn</span>Perfil encontrado</div>
+      <div class="data-item"><span>📅 Actividad</span>Web activa 2025</div>
+    </div>
+    <div class="signals-box">
+      <div class="signals-title">⚡ Señales detectadas</div>
+      <div class="signal-item">• Flota propia en múltiples ciudades colombianas</div>
+      <div class="signal-item">• Cobertura nacional: Bogotá, MDE, Cali, Bquilla, Cartagena</div>
+      <div class="signal-item">• Email de servicio al cliente activo y verificado</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> Google Search · InformaColombia · LinkedIn</div>
+  </div>
+
+  <!-- 5. Renting Automayor — HOT 52 -->
+  <div class="lead-card" data-category="HOT">
+    <div class="card-header">
+      <div>
+        <div class="company-name">Renting Automayor</div>
+        <div class="company-industry">Arrendamiento de vehículos · Bogotá</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-hot">52</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-HOT">🔥 HOT</span>
+    <div class="score-bar"><div class="score-fill fill-HOT" style="width:52%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>🌐 Website</span><a href="https://rentingautomayor.com" target="_blank">rentingautomayor.com</a></div>
+      <div class="data-item"><span>📞 Teléfono</span>+601 691 4303</div>
+      <div class="data-item"><span>📍 Ubicación</span>Cra 14 #81-19 Of.605, Bogotá</div>
+      <div class="data-item"><span>🏢 Sector</span>Renting de vehículos para empresas y PyMEs</div>
+      <div class="data-item"><span>👥 Tamaño</span>PyME</div>
+      <div class="data-item"><span>💼 LinkedIn</span>No confirmado</div>
+      <div class="data-item"><span>📅 Actividad</span>Sitio activo 2025</div>
+      <div class="data-item"><span>📧 Email</span>Formulario web</div>
+    </div>
+    <div class="signals-box">
+      <div class="signals-title">⚡ Señales detectadas</div>
+      <div class="signal-item">• Flota propia de vehículos en arrendamiento — seguro obligatorio</div>
+      <div class="signal-item">• Atiende personas, PyMEs y compañías</div>
+      <div class="signal-item">• Dirección física en zona empresarial norte Bogotá</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> Google Search · renting vehículos Colombia</div>
+  </div>
+
+  <!-- 6. Aeroexpresos Rusantur — WARM 49 -->
+  <div class="lead-card" data-category="WARM">
+    <div class="card-header">
+      <div>
+        <div class="company-name">Aeroexpresos Rusantur SAS</div>
+        <div class="company-industry">Trans. escolar / empresarial / turismo · Bogotá</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-warm">49</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-WARM">🌡️ WARM</span>
+    <div class="score-bar"><div class="score-fill fill-WARM" style="width:49%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>🌐 Website</span><a href="https://aeroexpresos.net" target="_blank">aeroexpresos.net</a></div>
+      <div class="data-item"><span>📞 Teléfono</span>(1) 703 2020</div>
+      <div class="data-item"><span>📍 Ubicación</span>Bogotá, Colombia</div>
+      <div class="data-item"><span>🏢 Sector</span>Transporte escolar, empresarial y turismo</div>
+      <div class="data-item"><span>👥 Tamaño</span>PyME (7 años operando)</div>
+      <div class="data-item"><span>📅 Actividad</span>Sitio activo, operación nacional</div>
+      <div class="data-item"><span>📧 Email</span>No encontrado</div>
+      <div class="data-item"><span>💼 LinkedIn</span>No encontrado</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> Google Search · transporte escolar Bogotá</div>
+  </div>
+
+  <!-- 7. AS Transportes — WARM 47 -->
+  <div class="lead-card" data-category="WARM">
+    <div class="card-header">
+      <div>
+        <div class="company-name">AS Transportes</div>
+        <div class="company-industry">Transporte especial pasajeros y carga · Colombia</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-warm">47</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-WARM">🌡️ WARM</span>
+    <div class="score-bar"><div class="score-fill fill-WARM" style="width:47%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>🌐 Website</span><a href="https://astransportes.com.co" target="_blank">astransportes.com.co</a></div>
+      <div class="data-item"><span>📧 Email</span>Formulario web</div>
+      <div class="data-item"><span>📍 Ubicación</span>Colombia (cobertura nacional)</div>
+      <div class="data-item"><span>🏢 Sector</span>Transporte especial y carga</div>
+      <div class="data-item"><span>👥 Tamaño</span>20+ años, mediana empresa</div>
+      <div class="data-item"><span>📅 Actividad</span>Sitio activo 2025</div>
+      <div class="data-item"><span>💼 LinkedIn</span>No confirmado</div>
+      <div class="data-item"><span>📞 Teléfono</span>No encontrado</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> Google Search · transporte de carga Colombia</div>
+  </div>
+
+  <!-- 8. El Criollo — WARM 47 -->
+  <div class="lead-card" data-category="WARM">
+    <div class="card-header">
+      <div>
+        <div class="company-name">Distribuidora El Criollo</div>
+        <div class="company-industry">Distribución alimentos · Colombia</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-warm">47</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-WARM">🌡️ WARM</span>
+    <div class="score-bar"><div class="score-fill fill-WARM" style="width:47%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>🌐 Website</span><a href="https://distribuidoraelcriollo.com" target="_blank">distribuidoraelcriollo.com</a></div>
+      <div class="data-item"><span>📧 Email</span>Formulario web</div>
+      <div class="data-item"><span>📍 Ubicación</span>Colombia</div>
+      <div class="data-item"><span>🏢 Sector</span>Distribución alimentos secos/frescos/congelados</div>
+      <div class="data-item"><span>👥 Tamaño</span>25+ vehículos propios, PyME mediana</div>
+      <div class="data-item"><span>📦 Bodega</span>5.000 m² + 1.000 m² frigorífico</div>
+      <div class="data-item"><span>💼 LinkedIn</span>No confirmado</div>
+      <div class="data-item"><span>📅 Actividad</span>Sitio activo</div>
+    </div>
+    <div class="signals-box">
+      <div class="signals-title">⚡ Señales detectadas</div>
+      <div class="signal-item">• Flota propia de 25+ vehículos refrigerados y secos</div>
+      <div class="signal-item">• Distribución activa en múltiples regiones</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> Google Search · distribución alimentos Colombia</div>
+  </div>
+
+  <!-- 9. Estrene Carro PyME — WARM 47 -->
+  <div class="lead-card" data-category="WARM">
+    <div class="card-header">
+      <div>
+        <div class="company-name">Estrene Carro PyME</div>
+        <div class="company-industry">Renting de vehículos para empresas · Colombia</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-warm">47</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-WARM">🌡️ WARM</span>
+    <div class="score-bar"><div class="score-fill fill-WARM" style="width:47%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>🌐 Website</span><a href="https://estrenecarropyme.com" target="_blank">estrenecarropyme.com</a></div>
+      <div class="data-item"><span>📧 Email</span>Formulario web</div>
+      <div class="data-item"><span>📍 Ubicación</span>Colombia</div>
+      <div class="data-item"><span>🏢 Sector</span>Renting / leasing vehicular para empresas</div>
+      <div class="data-item"><span>👥 Tamaño</span>PyME (10 años de experiencia)</div>
+      <div class="data-item"><span>🎯 Nicho</span>Exclusivo PyMEs</div>
+      <div class="data-item"><span>💼 LinkedIn</span>No confirmado</div>
+      <div class="data-item"><span>📅 Actividad</span>Sitio activo 2025</div>
+    </div>
+    <div class="signals-box">
+      <div class="signals-title">⚡ Señales detectadas</div>
+      <div class="signal-item">• Gestiona flotas para PyMEs — seguro de vehículos implícito</div>
+      <div class="signal-item">• Única marca con renting propio según su web</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> Google Search · renting vehículos PyME Colombia</div>
+  </div>
+
+  <!-- 10. TLC Logistics — WARM 45 -->
+  <div class="lead-card" data-category="WARM">
+    <div class="card-header">
+      <div>
+        <div class="company-name">TLC Logistics SAS</div>
+        <div class="company-industry">Transporte y logística · Colombia</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-warm">45</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-WARM">🌡️ WARM</span>
+    <div class="score-bar"><div class="score-fill fill-WARM" style="width:45%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>💼 LinkedIn</span><a href="https://www.linkedin.com/company/tlc-transporte-y-logistica-de-colombia-" target="_blank">Ver perfil</a></div>
+      <div class="data-item"><span>📧 Email</span>No encontrado</div>
+      <div class="data-item"><span>📍 Ubicación</span>Colombia</div>
+      <div class="data-item"><span>🏢 Sector</span>Transporte internacional y logística</div>
+      <div class="data-item"><span>👥 Tamaño</span>PyME, 9 años de experiencia</div>
+      <div class="data-item"><span>🌐 Website</span>No confirmado</div>
+      <div class="data-item"><span>📅 Actividad</span>LinkedIn: 735 seguidores</div>
+      <div class="data-item"><span>👤 Decision-maker</span>Buscar en LinkedIn</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> LinkedIn Search · transporte logística Colombia</div>
+  </div>
+
+  <!-- 11. Ditransa — WARM 42 -->
+  <div class="lead-card" data-category="WARM">
+    <div class="card-header">
+      <div>
+        <div class="company-name">Ditransa</div>
+        <div class="company-industry">Carga a granel y refrigerada · Colombia</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-warm">42</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-WARM">🌡️ WARM</span>
+    <div class="score-bar"><div class="score-fill fill-WARM" style="width:42%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>💼 LinkedIn</span><a href="https://es.linkedin.com/company/ditransa" target="_blank">Ver perfil</a></div>
+      <div class="data-item"><span>📧 Email</span>No encontrado</div>
+      <div class="data-item"><span>📍 Ubicación</span>Colombia</div>
+      <div class="data-item"><span>🏢 Sector</span>Transporte carga seca y refrigerada</div>
+      <div class="data-item"><span>👥 Tamaño</span>Desde 1994, empresa establecida</div>
+      <div class="data-item"><span>🌐 Website</span>No confirmado</div>
+      <div class="data-item"><span>📅 Actividad</span>LinkedIn activo</div>
+      <div class="data-item"><span>👤 Decision-maker</span>Buscar en LinkedIn</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> LinkedIn Search · logística Colombia</div>
+  </div>
+
+  <!-- 12. Transportes Especiales CJD — WARM 40 -->
+  <div class="lead-card" data-category="WARM">
+    <div class="card-header">
+      <div>
+        <div class="company-name">Transportes Especiales CJD Ltda</div>
+        <div class="company-industry">Transporte especial escolar · Bogotá</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-warm">40</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-WARM">🌡️ WARM</span>
+    <div class="score-bar"><div class="score-fill fill-WARM" style="width:40%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>🌐 Website</span><a href="https://transportesespecialescjd.com" target="_blank">transportesespecialescjd.com</a></div>
+      <div class="data-item"><span>📧 Email</span>No encontrado</div>
+      <div class="data-item"><span>📍 Ubicación</span>Bogotá, Colombia</div>
+      <div class="data-item"><span>🏢 Sector</span>Transporte escolar, empresarial y turismo</div>
+      <div class="data-item"><span>👥 Tamaño</span>PyME</div>
+      <div class="data-item"><span>💼 LinkedIn</span>No encontrado</div>
+      <div class="data-item"><span>📅 Actividad</span>Web activa</div>
+      <div class="data-item"><span>📞 Teléfono</span>Buscar en web</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> Google Search · transporte escolar Bogotá</div>
+  </div>
+
+  <!-- 13. Chef Market — WARM 37 -->
+  <div class="lead-card" data-category="WARM">
+    <div class="card-header">
+      <div>
+        <div class="company-name">Chef Market Colombia</div>
+        <div class="company-industry">Distribución alimentos · Cundinamarca / Colombia</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-warm">37</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-WARM">🌡️ WARM</span>
+    <div class="score-bar"><div class="score-fill fill-WARM" style="width:37%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>🌐 Website</span><a href="https://chefmarketcolombia.com" target="_blank">chefmarketcolombia.com</a></div>
+      <div class="data-item"><span>📧 Email</span>Formulario web</div>
+      <div class="data-item"><span>📍 Ubicación</span>Cundinamarca, Tolima, Magdalena, La Guajira</div>
+      <div class="data-item"><span>🏢 Sector</span>Distribución alimentos masivos y especializados</div>
+      <div class="data-item"><span>👥 Tamaño</span>Fundada 1974, mediana empresa</div>
+      <div class="data-item"><span>💼 LinkedIn</span>No confirmado</div>
+      <div class="data-item"><span>📅 Actividad</span>Sitio activo</div>
+      <div class="data-item"><span>🗺️ Cobertura</span>4 departamentos de Colombia</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> Google Search · distribución alimentos Colombia</div>
+  </div>
+
+  <!-- 14. Proandina — WARM 37 -->
+  <div class="lead-card" data-category="WARM">
+    <div class="card-header">
+      <div>
+        <div class="company-name">Proandina</div>
+        <div class="company-industry">Distribución consumo masivo · Colombia</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-warm">37</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-WARM">🌡️ WARM</span>
+    <div class="score-bar"><div class="score-fill fill-WARM" style="width:37%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>🌐 Website</span><a href="https://proandina.com" target="_blank">proandina.com</a></div>
+      <div class="data-item"><span>📧 Email</span>Formulario web</div>
+      <div class="data-item"><span>📍 Ubicación</span>Colombia</div>
+      <div class="data-item"><span>🏢 Sector</span>Distribución consumo masivo</div>
+      <div class="data-item"><span>👥 Tamaño</span>44 años, 4.000+ puntos atendidos</div>
+      <div class="data-item"><span>💼 LinkedIn</span>No confirmado</div>
+      <div class="data-item"><span>📅 Actividad</span>Sitio activo</div>
+      <div class="data-item"><span>🚐 Flota</span>Flota de distribución nacional</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> Google Search · distribución alimentos Colombia</div>
+  </div>
+
+  <!-- 15. CARGA SAS — WARM 37 -->
+  <div class="lead-card" data-category="WARM">
+    <div class="card-header">
+      <div>
+        <div class="company-name">CARGA SAS</div>
+        <div class="company-industry">Plataforma de carga · Colombia</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-warm">37</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-WARM">🌡️ WARM</span>
+    <div class="score-bar"><div class="score-fill fill-WARM" style="width:37%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>🌐 Website</span><a href="https://carga.com.co" target="_blank">carga.com.co</a></div>
+      <div class="data-item"><span>📧 Email</span>Formulario web / app</div>
+      <div class="data-item"><span>📍 Ubicación</span>Colombia</div>
+      <div class="data-item"><span>🏢 Sector</span>Plataforma digital de carga</div>
+      <div class="data-item"><span>👥 Tamaño</span>4.000+ transportadores en red</div>
+      <div class="data-item"><span>📱 App</span>Aplicación móvil propia</div>
+      <div class="data-item"><span>💼 LinkedIn</span>No confirmado</div>
+      <div class="data-item"><span>📅 Actividad</span>Plataforma activa</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> Google Search · transporte carga Colombia</div>
+  </div>
+
+  <!-- 16. Seturcol — WARM 35 -->
+  <div class="lead-card" data-category="WARM">
+    <div class="card-header">
+      <div>
+        <div class="company-name">Seturcol</div>
+        <div class="company-industry">Empresa de transporte · Colombia</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-warm">35</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-WARM">🌡️ WARM</span>
+    <div class="score-bar"><div class="score-fill fill-WARM" style="width:35%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>🌐 Website</span><a href="https://seturcol.com.co" target="_blank">seturcol.com.co</a></div>
+      <div class="data-item"><span>📧 Email</span>Formulario web</div>
+      <div class="data-item"><span>📍 Ubicación</span>Colombia</div>
+      <div class="data-item"><span>🏢 Sector</span>Transporte de pasajeros</div>
+      <div class="data-item"><span>👥 Tamaño</span>PyME</div>
+      <div class="data-item"><span>💼 LinkedIn</span>No confirmado</div>
+      <div class="data-item"><span>📅 Actividad</span>Sitio activo</div>
+      <div class="data-item"><span>📞 Teléfono</span>Ver en web</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> Google Search · transporte escolar Colombia</div>
+  </div>
+
+  <!-- 17. Logística Total SAS — WARM 30 -->
+  <div class="lead-card" data-category="WARM">
+    <div class="card-header">
+      <div>
+        <div class="company-name">Logística Total SAS</div>
+        <div class="company-industry">Logística · Colombia</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-warm">30</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-WARM">🌡️ WARM</span>
+    <div class="score-bar"><div class="score-fill fill-WARM" style="width:30%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>💼 LinkedIn</span><a href="https://co.linkedin.com/company/logistica-total-sas" target="_blank">Ver perfil</a></div>
+      <div class="data-item"><span>📧 Email</span>No encontrado</div>
+      <div class="data-item"><span>📍 Ubicación</span>Colombia</div>
+      <div class="data-item"><span>🏢 Sector</span>Logística y transporte</div>
+      <div class="data-item"><span>👥 Tamaño</span>No encontrado</div>
+      <div class="data-item"><span>🌐 Website</span>No encontrado</div>
+      <div class="data-item"><span>📅 Actividad</span>LinkedIn activo</div>
+      <div class="data-item"><span>👤 Decision-maker</span>Buscar en LinkedIn</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> LinkedIn Search · logística Colombia</div>
+  </div>
+
+  <!-- 18. MCT SAS — COLD 25 -->
+  <div class="lead-card" data-category="COLD">
+    <div class="card-header">
+      <div>
+        <div class="company-name">MCT SAS</div>
+        <div class="company-industry">Transporte / logística · Colombia</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-cold">25</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-COLD">❄️ COLD</span>
+    <div class="score-bar"><div class="score-fill fill-COLD" style="width:25%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>💼 LinkedIn</span><a href="https://co.linkedin.com/company/mct-sas" target="_blank">Ver perfil</a></div>
+      <div class="data-item"><span>📧 Email</span>No encontrado</div>
+      <div class="data-item"><span>📍 Ubicación</span>Colombia</div>
+      <div class="data-item"><span>🏢 Sector</span>Transporte y servicios</div>
+      <div class="data-item"><span>👥 Tamaño</span>No encontrado</div>
+      <div class="data-item"><span>🌐 Website</span>No encontrado</div>
+      <div class="data-item"><span>📅 Actividad</span>LinkedIn solo</div>
+      <div class="data-item"><span>👤 Decision-maker</span>Buscar en LinkedIn</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> LinkedIn Search · transporte Colombia</div>
+  </div>
+
+  <!-- 19. Soluciones Logísticas TCL — COLD 25 -->
+  <div class="lead-card" data-category="COLD">
+    <div class="card-header">
+      <div>
+        <div class="company-name">Soluciones Logísticas TCL</div>
+        <div class="company-industry">Operador logístico · Colombia</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-cold">25</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-COLD">❄️ COLD</span>
+    <div class="score-bar"><div class="score-fill fill-COLD" style="width:25%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>💼 LinkedIn</span><a href="https://co.linkedin.com/company/soluciones-logisticas-tcl" target="_blank">Ver perfil</a></div>
+      <div class="data-item"><span>📧 Email</span>No encontrado</div>
+      <div class="data-item"><span>📍 Ubicación</span>Colombia</div>
+      <div class="data-item"><span>🏢 Sector</span>Operador logístico industrial y comercial</div>
+      <div class="data-item"><span>👥 Tamaño</span>No encontrado</div>
+      <div class="data-item"><span>🌐 Website</span>No encontrado</div>
+      <div class="data-item"><span>📅 Actividad</span>LinkedIn activo</div>
+      <div class="data-item"><span>👤 Decision-maker</span>Buscar en LinkedIn</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> LinkedIn Search · logística Colombia</div>
+  </div>
+
+  <!-- 20. Cootraescal — COLD 22 -->
+  <div class="lead-card" data-category="COLD">
+    <div class="card-header">
+      <div>
+        <div class="company-name">Cootraescal</div>
+        <div class="company-industry">Cooperativa transporte escolar · Medellín</div>
+      </div>
+      <div class="score-block">
+        <div class="score-num score-num-cold">22</div>
+        <div class="score-label">Score</div>
+      </div>
+    </div>
+    <span class="cat-badge cat-COLD">❄️ COLD</span>
+    <div class="score-bar"><div class="score-fill fill-COLD" style="width:22%"></div></div>
+    <div class="data-grid">
+      <div class="data-item"><span>🌐 Website</span><a href="https://cootraescal.com" target="_blank">cootraescal.com</a></div>
+      <div class="data-item"><span>📧 Email</span>No encontrado</div>
+      <div class="data-item"><span>📍 Ubicación</span>Medellín, Colombia</div>
+      <div class="data-item"><span>🏢 Sector</span>Cooperativa transporte escolar</div>
+      <div class="data-item"><span>👥 Tamaño</span>Cooperativa (tamaño variable)</div>
+      <div class="data-item"><span>💼 LinkedIn</span>No encontrado</div>
+      <div class="data-item"><span>📅 Actividad</span>Web activa</div>
+      <div class="data-item"><span>📞 Teléfono</span>Ver en web</div>
+    </div>
+    <div class="source-tag"><strong>Fuente:</strong> Google Search · transporte escolar Colombia</div>
+  </div>
+
+</div><!-- /cards-grid -->
+
+<!-- METHODOLOGY -->
+<div class="methodology">
+  <h3>Metodología del reporte</h3>
+  <p><strong>Generado:</strong> 2 de mayo de 2026 · <strong>Modo:</strong> NATIVE (WebSearch Claude) · <strong>Nicho:</strong> Seguros de vehículos para PyMEs · <strong>Región:</strong> Colombia · <strong>Idioma:</strong> Español</p>
+  <p><strong>Fuentes consultadas:</strong> Google Search, LinkedIn Search, directorios empresariales colombianos (InformaColombia, DirectorioDeCarga, Mintransporte)</p>
+  <p><strong>Criterios de scoring (0–100):</strong></p>
+  <ul>
+    <li>Website activo y funcional: 15 pts</li>
+    <li>Presencia LinkedIn con actividad reciente: 15 pts</li>
+    <li>Email o contacto directo encontrado: 15 pts</li>
+    <li>Actividad en redes sociales &lt;30 días: 10 pts</li>
+    <li>Tamaño &gt;10 empleados: 10 pts</li>
+    <li>Decision-maker identificado: 15 pts</li>
+    <li>Buy signal detectado: 20 pts</li>
+  </ul>
+  <div class="disclaimer">⚠️ Este reporte fue generado con información pública disponible al 2 de mayo de 2026. Se recomienda verificar los datos antes de contactar. No incluye información privada ni datos obtenidos fuera de fuentes públicas.</div>
+</div>
+
+<script>
+function filterLeads(category) {
+  document.querySelectorAll('.lead-card').forEach(card => {
+    card.style.display = (category === 'ALL' || card.dataset.category === category) ? '' : 'none';
+  });
+  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelector('[data-filter="' + category + '"]').classList.add('active');
+}
+function searchLeads(query) {
+  document.querySelectorAll('.lead-card').forEach(card => {
+    const name = card.querySelector('.company-name').textContent.toLowerCase();
+    card.style.display = name.includes(query.toLowerCase()) ? '' : 'none';
+  });
+}
+function downloadPDF() { window.print(); }
+</script>
+</body>
+</html>

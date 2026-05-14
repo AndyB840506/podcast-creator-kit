@@ -1,0 +1,26 @@
+{
+  "KT-001": {
+    "title": "Agente de Servicio Bilingüe",
+    "description": "En AXA Partners buscamos personas apasionadas por el servicio al cliente con nivel de inglés B2. El rol implica atender clientes en español e inglés por múltiples canales (voz, chat, email), resolver consultas sobre contratos de asistencia, cumplir SLAs de calidad y satisfacción, y colaborar con equipos internacionales. Se requiere bachiller, nivel inglés B2, buenas habilidades comunicativas. No se requiere experiencia previa. Contrato fijo 6 meses renovable, salario $2.825.000 + bonificaciones KPI, modalidad híbrida.",
+    "language": "auto",
+    "level": "agent",
+    "requires_english": true,
+    "active": true
+  },
+  "KT-002": {
+    "title": "Supervisor BPO - Fintech",
+    "description": "Buscamos Supervisor de BPO para liderar equipos en sector Fintech (BOG). El candidato ideal tiene 3+ años de experiencia supervisando equipos de contact center de 10-20 agentes, manejo de KPIs operativos (NPS, FCR, AHT, CSAT), experiencia en BPO multicanal, habilidades de coaching y desarrollo de talento, conocimiento de herramientas CRM como Salesforce o Zendesk. Deseable experiencia en sector financiero o fintech. Salario competitivo + beneficios.",
+    "language": "auto",
+    "level": "professional",
+    "requires_english": false,
+    "active": true
+  },
+  "KT-003": {
+    "title": "Customer Success Manager",
+    "description": "We are looking for an experienced Customer Success Manager to join our growing team. You will own a portfolio of enterprise accounts, drive product adoption, conduct business reviews, and ensure high retention. Requirements: 5+ years in Customer Success or Account Management at a SaaS company, strong analytical skills, excellent English communication (written and verbal), experience with tools like Gainsight, Salesforce, or HubSpot. You will work closely with Sales, Product, and Support to deliver exceptional client outcomes.",
+    "language": "english",
+    "level": "professional",
+    "requires_english": true,
+    "active": true
+  }
+}
