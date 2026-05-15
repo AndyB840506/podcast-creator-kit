@@ -24,6 +24,20 @@ No preguntes el idioma. Simplemente detéctalo y úsalo. Si no estás seguro, us
 
 ---
 
+## Quick Start (One-Liners)
+
+If you already know what you want, skip the sondeo. Just write:
+
+> "Busca leads de restaurantes en Bogotá que necesiten servicio de catering"
+>
+> "Find B2B SaaS companies in Mexico that need CRM solutions - 30 leads"
+>
+> "Restaurantes en LATAM que necesiten POS - usa modo serper, máximo 25 leads"
+
+I'll extract the intent, confirm parameters in one message, then execute immediately. No long conversation needed.
+
+---
+
 ## Paso 0 — Verificar configuración de búsqueda
 
 ### 0.1 Leer archivo de configuración

@@ -23,6 +23,29 @@ deeply. You don't ask questions that are already answered here. You execute with
 
 ---
 
+## 📋 Table of Contents
+
+1. **Who is Andy** — Background, preferences, contact
+2. **What BTQ Is** — Tagline, audience, language, positioning
+3. **Brand Identity** — Colors, fonts, logos, visual rules
+4. **Tone Master (TM)** — Opening, closing, prohibitions, markers, data rules
+5. **Episode Model** — 7-segment structure, anchor format
+6. **Current Production State** — EP.011 (Frieren), EP.012 (Bohemian Rhapsody), music, outstanding items
+7. **Season 2 Roadmap** — Full episode list with cultural references and closing phrases
+8. **Production Workflow** — Tool responsibilities (Claude, Gemini, Kling, Flow, etc.)
+9. **Post-Production Checklist** — TurboScribe corrections, delivery verification
+10. **Social Media — 3-Day Launch Plan** — Intriga / Contenido / Lanzamiento framework
+11. **Contact and Distribution** — Email, web, social channels, Spotify
+12. **Working Rules for Claude** — Principles and guardrails for Laswell
+13. **Intellectual Property** — Trademark, Safe Creative, legal name
+14. **Production Workflow: Guión** — Anchor points script creation (Pasos 1-7)
+15. **Production Workflow: Artwork Prompts** — Nani Banana 2 specifications and templates
+16. **Production Workflow: Quote Cards** — Extraction and design rules
+17. **Production Workflow: Social Media 3-Day Image Plan** — Day 1/2/3 visuals and copy
+18. **Production Workflow: Episode Registration** — Safe Creative + Spotify metadata
+
+---
+
 ## 1. Who is Andy
 
 **Andrés Ricardo Bermúdez Rodríguez** — host and creator of BTQ. Ingeniero Industrial,
@@ -319,7 +342,7 @@ Cultural (per episode): #Frieren #BohemianRhapsody #GodOfWar etc.
 2. **Brand consistency** — void black + signal gold + off-white in every visual asset. Never improvise colors.
 3. **Full name in formal content:** "Andrés Ricardo Bermúdez Rodríguez"
 4. **Default language:** Spanish for podcast and social. English for global LinkedIn or Queue Intelligence articles.
-5. **Before proposing something new, ask if it already exists** — don't reinvent.
+5. **Before proposing something new, audit this skill first** — Search Sections 1-18 for existing patterns. If a workflow already exists (guión, artwork, social, registration), reference it. Don't suggest parallel approaches.
 6. **Read project files first** — if a .docx exists in the project, read it before reconstructing.
 7. **Response format:** Simple and meaningful. Tables when they help. No unnecessary jargon. Connect to context and next action.
 8. **Give direct opinions when asked** — Andy values judgment, not excessive neutrality.

@@ -66,6 +66,20 @@ Antes de escribir, planifica la estructura:
 
 Estos principios son los que hacen que una skill sea realmente buena:
 
+**PRIMERO: Expectativas realistas es honestidad**
+
+No prometas velocidad si la tarea es lenta por naturaleza. No ocultes la curva de aprendizaje — prepárala.
+
+**Ejemplo:**
+- ❌ "Genera un podcast en 2 horas"
+- ✅ "Primer episodio: 8-15 horas (curva de aprendizaje). Luego: 5-8 horas. Experiencia: 3-5 horas"
+
+El usuario que sabe qué esperar no abandona en la hora 3. Es mejor ser honesto upfront que tener un usuario decepcionado después.
+
+---
+
+Estos principios son los que hacen que una skill sea realmente buena:
+
 **1. No inventes datos** — si la skill necesita información del usuario (servicios, precios, contacto, testimonios), pregúntala. Nunca la inventes. Si algo no está disponible, usa placeholders visibles o omite la sección.
 
 **2. Datos reales primero, preguntas después** — si la skill puede obtener datos automáticamente (scraping, WebFetch, WebSearch), hazlo primero. Solo pregunta lo que no puedes encontrar solo.
@@ -93,6 +107,17 @@ Estos principios son los que hacen que una skill sea realmente buena:
 **13. Nombre humano para agentes** — si la skill crea un agente conversacional, darle un nombre humano rotativo por sesión. Humaniza la interacción y hace que parezca que hay un equipo detrás.
 
 **14. En kits multi-workflow, presentar extras propuestos explícitamente** — si el diseño incluye componentes que el usuario no mencionó (ej. archivo de perfil persistente, intro/outro templates, reusabilidad de prompts), listarlos con justificación breve y pedir confirmación antes de incluirlos en el plan. Evita scope creep silencioso.
+
+### Validation checkpoints en Paso 2
+
+Después de diseñar la estructura, identifica 2-3 puntos críticos donde el usuario DEBE validar antes de que sigas adelante:
+
+**Orden de corrección:**
+1. **Scope primero** — ¿Qué entra y qué no? ¿Cuál es el límite de la skill?
+2. **Flujo segundo** — ¿Cuáles son los pasos? ¿En qué orden?
+3. **Herramientas tercero** — ¿Qué genera exactamente? ¿En qué formato?
+
+**Meta:** Si el usuario te corrige en 3+ puntos después de este paso, el diseño fue incompleto. La validación temprana ahorra rework.
 
 ### Anti-patterns a evitar en proyectos PHP/backend
 
@@ -179,6 +204,38 @@ Una línea describiendo qué hace en lenguaje simple.
 - Preferir herramientas nativas de Claude Code (Read, Write, WebFetch, WebSearch, Bash)
 - Evitar dependencias externas cuando sea posible
 - Si necesita Python/Node, que sea lo mínimo y con auto-instalación
+
+---
+
+## Paso 3.5 — Plan de distribución
+
+Antes de instalar y compartir, responde estas preguntas (afectan la estructura final):
+
+1. **¿Dónde vive esta skill?**
+   - En repo del usuario (privado)
+   - En repo GitHub público
+   - En skills.sh (marketplace)
+   - En multiple locations
+
+2. **¿Quién la descubre?**
+   - Solo el usuario la usa (instalación manual)
+   - Equipo interno (shared en Slack/Wiki)
+   - Público en GitHub
+   - Listada en skills.sh
+
+3. **¿Cómo se instala?**
+   - `git clone` + copiar archivo
+   - `npx skills add owner/repo`
+   - Copiar/pegar archivo `.md`
+   - Download desde skills.sh
+
+**Estas decisiones afectan:**
+- Necesidad de README
+- Metadatos en frontmatter (para skills.sh)
+- Estructura de carpetas (kit vs standalone)
+- Instrucciones de instalación
+
+**Recomendación:** Si es público o para compartir, crea un kit completo (Paso 5) con README + INSTRUCCIONES.
 
 ---
 

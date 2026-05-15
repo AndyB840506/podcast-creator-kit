@@ -107,15 +107,48 @@ Proposed fixes must follow first-principles system design principles. No quick p
 - "Add a validation step" → fix the source of invalid data
 - "Hardcode this exception" → make it a registry entry or classification rule
 
-**Example:** "merge-tier2.py drops category" is not fixed by "add category back in build-dashboard.py." It's fixed by making merge-tier2.py preserve the field. Fix at the source, not downstream.
+**Examples with BTQ context:**
+
+❌ **Symptom fix (bad):** "The guión script doesn't include character names. Let's add a step at the end to insert them."
+✅ **Root cause fix:** "The guión asks for character name in Paso 1 but never stores it. Store it in a dedicated variable and reference in Paso 4 TM section."
+
+❌ **Symptom fix (bad):** "The artwork prompt keeps including PCB circuits on non-tech episodes. Check and remove them manually."
+✅ **Root cause fix:** "The template doesn't say 'No PCB circuits' by default. Add it to the prompt template in Section 15 and only override for AI/tech episodes."
+
+❌ **Symptom fix (bad):** "The social media copy is sometimes too long. Let's add a word-count validator after generation."
+✅ **Root cause fix:** "Step 1 copy doesn't specify a max length. Define limits upfront: LinkedIn 280 chars, Instagram 150 chars, TikTok 60 chars."
 
 ## Auto-Suggest Convention
 
-After completing any multi-step workflow, the agent should check:
-1. Were there more than 2 corrections from the user?
-2. Was any artifact regenerated 3+ times?
-3. Were steps improvised that aren't in the skill?
+After completing any multi-step workflow, check if retrospective is needed:
 
-If yes to any: suggest `/retrospective` before moving on.
+**SUGGEST retrospective if:**
+- More than 2 corrections from the user during the session
+- Any artifact regenerated 3+ times
+- Steps improvised that aren't documented in the skill
+- User explicitly asks "what did we learn"
 
-This is NOT automatic - just a suggestion. The user decides whether to run it.
+**DO NOT suggest if:**
+- It's the first time using the skill (learning curve is normal)
+- User explicitly says "just finish, don't analyze"
+- The issue was a one-off bug, not a pattern
+- User already ran retrospective recently on this skill
+
+When suggesting: "We iterated a few times here. Want to run `/retrospective` to update the skill so next time is faster?"
+
+The user decides. This is a nudge, not a requirement.
+
+---
+
+## End-of-Session Integration: Prompt Reviewer
+
+After you complete `/retrospective` and before the next session, suggest:
+
+> "Got it — the skills are updated. Want to run `/prompt-reviewer` on the improved sections to catch any clarity issues before the next session? (Takes 2 min with RÁPIDO mode)"
+
+The user can:
+- "Yes" → launch `/prompt-reviewer` on the modified skill sections
+- "No" or skip → end session
+- "Later" → you'll remind them at handoff
+
+This catches edge cases and ambiguities in the updates before they're tested live.
